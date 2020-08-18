@@ -15,15 +15,23 @@ resource "vsphere_virtual_machine" "vm" {
   }
   wait_for_guest_net_timeout = 0
   wait_for_guest_ip_timeout  = 0
-  #datacenter_id              = data.vsphere_datacenter.dc.id
+  clone {
+    template_uuid = data.vsphere_virtual_machine.template.id
+    customize {
+      linux_options {
+        host_name = "terraform-server"
+        domain    = "vlan123.entcore.org"
+      }
+      network_interface {
+        ipv4_address = "192.168.123.200"
+        ipv4_netmask = "24"
+      }
 
-  #ovf_deploy {
-  #  local_ovf_path       = "Templates/debian9-preconfigured"
-  #  disk_provisioning    = "thin"
-  #  ip_protocol          = "IPV4"
-  #  ip_allocation_policy = "STATIC_MANUAL"
-  #}
-
+      ipv4_gateway    = "192.168.123.254"
+      dns_suffix_list = ["vlan123.entcore.org"]
+      dns_server_list = ["192.168.13.8", "192.168.13.9"]
+    }
+  }
   num_cpus = 2
   memory   = 1024
   guest_id = "other3xLinux64Guest"
