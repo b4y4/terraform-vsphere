@@ -1,9 +1,7 @@
 provider "vsphere" {
-  user           = var.vsphere_user
-  password       = var.vsphere_password
-  vsphere_server = var.vsphere_server
-
-  # If you have a self-signed cert
+  user                 = var.vsphere_user
+  password             = var.vsphere_password
+  vsphere_server       = var.vsphere_server
   allow_unverified_ssl = true
 }
 
@@ -15,12 +13,12 @@ resource "vsphere_virtual_machine" "vm" {
   network_interface {
     network_id = data.vsphere_network.network.id
   }
-  #wait_for_guest_net_timeout = 0
-  #wait_for_guest_ip_timeout  = 0
+  wait_for_guest_net_timeout = 0
+  wait_for_guest_ip_timeout  = 0
   #datacenter_id              = data.vsphere_datacenter.dc.id
 
   #ovf_deploy {
-  #  local_ovf_path       = "${data.vsphere_datacenter.dc.name}/Template/debian9-preconfigured"
+  #  local_ovf_path       = "Templates/debian9-preconfigured"
   #  disk_provisioning    = "thin"
   #  ip_protocol          = "IPV4"
   #  ip_allocation_policy = "STATIC_MANUAL"
