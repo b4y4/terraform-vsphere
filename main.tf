@@ -37,7 +37,8 @@ resource "vsphere_virtual_machine" "vm" {
   guest_id = "other3xLinux64Guest"
 
   disk {
-    label = "disk0"
-    size  = 20
+    label            = "disk0"
+    size             = 20
+    thin_provisioned = true
   }
 }
